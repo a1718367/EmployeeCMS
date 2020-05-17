@@ -48,6 +48,10 @@ const mainmenu = [
         name: 'opchoise',
         choices: ['View', 'Add', 'Update', 'Delete','Exit']
     },
+
+];
+
+const supmenu = [
     {
         message: 'Please Select an Option.',
         type: 'list',
@@ -55,7 +59,7 @@ const mainmenu = [
         choices: ['Department', 'Roles','Employee']
         
     }
-];
+]
 
 
 const adddept = [
@@ -66,7 +70,7 @@ const adddept = [
         validate: chkstring,
 
     }
-]
+];
 
 const addrole = [
     {
@@ -96,7 +100,7 @@ const addrole = [
         }
     }
 
-]
+];
 
 const addstaff = [
     {
@@ -128,7 +132,7 @@ const addstaff = [
         }
     },
 
-]
+];
 
 const updatedep = [
     {
@@ -171,7 +175,7 @@ const updaterolename = [
         name: 'rolename',
         validate: chkstring,
     }
-]
+];
 
 const updaterolesalary = [
     {
@@ -188,8 +192,7 @@ const updatedirectreport = [
         type: 'confirm',
         name: 'directreport',
     }
-]
-
+];
 
 const updateemployee = [
     {
@@ -226,7 +229,7 @@ const updateemployeerole = [
             return roleList();
         },
     },
-]
+];
 
 const updateemployeedreport =[
     {
@@ -237,7 +240,7 @@ const updateemployeedreport =[
             return employeeListRpt();
         }
     },
-]
+];
 
 const deletedep = [
     {
@@ -248,7 +251,7 @@ const deletedep = [
             return deptList();
         }
     },
-]
+];
 const deleterole = [
     {
         message: 'Please select a Role to De-Activate',
@@ -269,47 +272,11 @@ const deleteemp = [
             return employeeList();
         }
     },
-]
-const viewmenu= [
-    {
-        message: 'Please select an Option to View.',
-        type: 'list',
-        name: 'viewmenu',
-        choices: ['Department','Roles','Employees']
-    }
-];
-
-
-
-const addmenu= [
-    {
-        message: 'Please select an Option to Add.',
-        type: 'list',
-        name: 'addmenu',
-        choices: ['Department','Roles','Employees']
-    }
-];
-
-const updatemenu= [
-    {
-        message: 'Please select an option to Update.',
-        type: 'list',
-        name: 'updatemenu',
-        choices: ['Department','Roles','Employees']
-    }
-];
-
-const deletemenu= [
-    {
-        message: 'Please select an option to Delete.',
-        type: 'list',
-        name: 'deletemenu',
-        choices: ['Department','Roles','Employees']
-    }
 ];
 
 module.exports = {
     mainmenu: mainmenu,
+    supmenu: supmenu,
     adddept: adddept,
     addrole: addrole,
     addstaff: addstaff,
@@ -325,8 +292,5 @@ module.exports = {
     deletedep: deletedep,
     deleterole: deleterole,
     deleteemp: deleteemp,
-    viewmenu: viewmenu,
-    addmenu: addmenu,
-    updatemenu: updatemenu,
-    deletemenu: deletemenu,
+
 }

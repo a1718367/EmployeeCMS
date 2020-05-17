@@ -15,3 +15,11 @@ select roles.roleid, roles.title, roles.salary, department.name
 from roles 
 join department on roles.FK_depid = department.depid 
 where roles.state = 1;
+
+select 
+concat(m.surname," ",m.firstname) as manager,
+concat(e.surname," ",e.firstname) as 'direct report'
+from
+employee e
+inner join employee m on m.empid = e.FK_managerid;
+

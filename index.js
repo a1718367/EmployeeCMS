@@ -2,6 +2,7 @@
 const inqurier = require('inquirer');
 const menu = require('./modules/prompt');
 const mysql = require("mysql");
+const cTable = require('console.table')
 
 
 const connection = mysql.createConnection({
@@ -34,15 +35,15 @@ async function start(){
             switch (obj) {
                 case "Department":
                     queryobj = await query('select name from department where state = 1');
-                    console.log(queryobj)
+                    console.table(queryobj)
                     break;
                 case "Roles":
-                    queryobj = await query('select roles.roleid, roles.title, roles.salary, department.name from roles join department on roles.FK_depid = department.depid where roles.state = 1');
-                    console.log(queryobj);
+                    queryobj = await query('select roles.roleid, roles.title, roles.salary, department.name from roles join department on roles.FK_depid = department.depid where roles.state = 1 order by department.name');
+                    console.table(queryobj);
                     break;                    
                 case "Employee":
-                    queryobj = await query('select employee.empid, employee.firstname, employee.surname, roles.title, department.name from employee join roles on employee.FK_roleid = roles.roleid join department on roles.FK_depid = department.depid where employee.state = 1');
-                    console.log(queryobj);
+                    queryobj = await query('select employee.empid, employee.firstname, employee.surname, roles.title, department.name from employee join roles on employee.FK_roleid = roles.roleid join department on roles.FK_depid = department.depid where employee.state = 1 order by department.name');
+                    console.table(queryobj);
                     break;            
                 default:
                     break;

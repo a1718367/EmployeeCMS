@@ -25,6 +25,8 @@ async function start(){
     let queryobj;
     let objaction
     let objprompts;
+    let objpromptfield;
+    let currentstate;
 
     switch (ops) {
         case "View":
@@ -66,11 +68,51 @@ async function start(){
                     break;                                
                 default:
                     break;
+            };
+        case "Update":
+            switch (obj) {
+                case "Department":
+                    objprompts = await inqurier.prompt(menu.updatedep);
+                    console.log(objprompts);
+                    objaction = await query(`update department set name =(?) where depid = (?)`,[objprompts.updatedep, objprompts.dep]);
+                    console.log(`New Department Name updated to ${objprompts.updatedep}`);
+                    break;
+                case "Roles":
+                    objprompts = await inqurier.prompt(menu.updateroles);
+                    console.log(objprompts);
+                    switch (objprompts.field) {
+                        case 'Title':
+                            objpromptfield = await inqurier.prompt(menu.updaterolename);
+                            console.log(objpromptfield);
+                            objaction = await query(`update roles set title = (?) where roleid = (?)`, [objpromptfield.rolename, objprompts.role])
+                            console.log(`Role Title updated to ${objpromptfield.rolename}`)
+                            break;
+                        case 'Salary':
+                            objpromptfield = await inqurier.prompt(menu.updaterolesalary);
+                            console.log(objpromptfield);
+                            objaction = await query(`update roles set salary = (?) where roleid = (?)`, [objpromptfield.salary, objprompts.role])
+                            console.log(`Role Salary updated to ${objpromptfield.salary}`)
+                            break;
+                        case 'Direct Report':
+                            objpromptfield = await inqurier.prompt(menu.updatedirectreport);
+                            console.log(objpromptfield);
+                            objaction = await query(`update roles set directreport = (?) where roleid = (?)`, [objpromptfield.directreport, objprompts.role])
+                            console.log(`Role Direct Report updated to ${objpromptfield.directreport}`)
+                            break;                                                
+                        default:
+                            break;
+                    };
+                    break;
+                case "Employee":
+                    objprompts = await inqurier.prompt(menu.updateemployee);
+                    console.log(objprompts);
+            
+                    break;
+
+                           
+                default:
+                    break;
             }
-    
-        case "Exit":
-            connection.end();
-            process.exit();
         default:
             break;
     }

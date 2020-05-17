@@ -15,17 +15,21 @@ async function roleList() {
 	let choices = await db.listData(query);
 	return choices;
 }
-async function employeeList() {
+async function employeeListRpt() {
     let query = `select employee.empid, concat(employee.firstname, " ", employee.surname) from employee join roles on employee.FK_roleid = roles.roleid where roles.directreport = 1`;
 	// let query = "SELECT empid, CONCAT(firstname, ' ', surname) FROM employee";
 	let choices = await db.listData(query);
 	return choices;
 }
 
+async function employeeList() {
+	let query = `select employee.empid, concat(employee.firstname, " ", employee.surname," ","Title: ",roles.title) from employee join roles on employee.FK_roleid = roles.roleid where employee.state = 1`;
+    let choices = await db.listData(query);
+	return choices;
+}
 
 
-
-
+//employeeList();
 
 
 const chkstring = async function(input){
@@ -121,12 +125,83 @@ const addstaff = [
         type: 'list',
         name: 'reportto',
         choices: async function(ans){
-            return employeeList();
+            return employeeListRpt();
         }
     },
 
 ]
 
+const updatedep = [
+    {
+        message: "Please select a Department to Update.",
+        type: 'list',
+        name: 'dep',
+        choices: async function(ans){
+            return deptList();
+        }
+    },
+    {
+        message: "Please Enter Updated Name for the Department.",
+        type: 'input',
+        name: 'updatedep',
+        validate: chkstring,
+    }
+];
+
+const updateroles = [
+    {
+        message: 'Please select a Role to Update.',
+        type: 'list',
+        name: 'role',
+        choices: async function(ans){
+            return roleList();
+        },
+    },
+    {
+        message: 'Please select a field to Update.',
+        type: 'list',
+        name: 'field',
+        choices: ['Title', 'Salary', 'Direct Report'],
+    },
+];
+
+const updaterolename = [
+    {
+        message: 'Please Enter new name for this Role.',
+        type: 'input',
+        name: 'rolename',
+        validate: chkstring,
+    }
+]
+
+const updaterolesalary = [
+    {
+        message: 'Please Enter new Salary for this Role.',
+        type: 'input',
+        name: 'salary',
+        validate: chknum,
+    }
+];
+
+const updatedirectreport = [
+    {
+        message: 'Please confirm direct report for this Role.',
+        type: 'confirm',
+        name: 'directreport',
+    }
+]
+
+
+const updateemployee = [
+    {
+        message: 'Please Select an employee to Update.',
+        type: 'list',
+        name: 'employee',
+        choices: async function(ans){
+            return employeeList();
+        }
+    },
+]
 const viewmenu= [
     {
         message: 'Please select an Option to View.',
@@ -135,6 +210,8 @@ const viewmenu= [
         choices: ['Department','Roles','Employees']
     }
 ];
+
+
 
 const addmenu= [
     {
@@ -168,6 +245,12 @@ module.exports = {
     adddept: adddept,
     addrole: addrole,
     addstaff: addstaff,
+    updatedep: updatedep,
+    updateroles: updateroles,
+    updaterolename: updaterolename,
+    updaterolesalary: updaterolesalary,
+    updatedirectreport: updatedirectreport,
+    updateemployee: updateemployee,
     viewmenu: viewmenu,
     addmenu: addmenu,
     updatemenu: updatemenu,

@@ -2,7 +2,7 @@
 const inqurier = require('inquirer');
 const menu = require('./modules/prompt');
 const mysql = require("mysql");
-const cTable = require('console.table')
+
 
 
 const connection = mysql.createConnection({
@@ -20,6 +20,10 @@ connection.connect(function(err){
 });
 
 async function start(){
+    console.log(`
+___________________________________
+########## Employee CMS ###########
+___________________________________`)
     let a = await inqurier.prompt(menu.mainmenu);
     let ops = a.opchoise;
     let obj;
@@ -30,7 +34,30 @@ async function start(){
     if (ops == "Exit"){
         connection.end();
         process.exit()
-    }else{
+    }else if(ops == "View by Manager"){
+        queryobj = await query (`select 
+        concat(m.firstname," ",m.surname) as manager,
+        concat(e.firstname," ",e.surname) as staff
+        from
+        employee e
+        inner join employee m on m.empid = e.FK_managerid;`);
+        console.table(queryobj);
+        start()
+    }else if(ops == 'Total Overhead'){
+        queryobj = await query(
+        `select sum(roles.salary) as 'Total Overhead' from employee
+        join roles on employee.FK_roleid = roles.roleid;`);
+        let depoh = await query(`
+        select sum(roles.salary) as 'Department Total', department.name as Department from employee
+        join roles on employee.FK_roleid = roles.roleid
+        join department on roles.FK_depid = department.depid
+        group by department.name;`);
+        console.table(queryobj);
+        console.table(depoh);
+        start();
+
+    }
+    else{
         let b = await inqurier.prompt(menu.supmenu);
         console.log(b);
         obj = b.itemchoise;
@@ -43,11 +70,11 @@ async function start(){
                         console.table(queryobj)
                         break;
                     case "Roles":
-                        queryobj = await query('select roles.roleid, roles.title, roles.salary, department.name from roles join department on roles.FK_depid = department.depid where roles.state = 1 order by department.name');
+                        queryobj = await query('select roles.roleid, roles.title, roles.salary, department.name as department from roles join department on roles.FK_depid = department.depid where roles.state = 1 order by department.name');
                         console.table(queryobj);
                         break;                    
                     case "Employee":
-                        queryobj = await query('select employee.empid, employee.firstname, employee.surname, roles.title, department.name from employee join roles on employee.FK_roleid = roles.roleid join department on roles.FK_depid = department.depid where employee.state = 1 order by department.name');
+                        queryobj = await query('select employee.empid, employee.firstname, employee.surname, roles.title, department.name as department from employee join roles on employee.FK_roleid = roles.roleid join department on roles.FK_depid = department.depid where employee.state = 1 order by department.name');
                         console.table(queryobj);
                         break;            
                     default:

@@ -46,7 +46,7 @@ const mainmenu = [
         message: 'Please Select an Action.',
         type: 'list',
         name: 'opchoise',
-        choices: ['View', 'Add', 'Update', 'Delete','Exit']
+        choices: ['View', 'Add', 'Update', 'Delete','View by Manager','Total Overhead','Exit']
     },
 
 ];

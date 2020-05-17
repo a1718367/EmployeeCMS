@@ -69,6 +69,7 @@ async function start(){
                 default:
                     break;
             };
+            break;
         case "Update":
             switch (obj) {
                 case "Department":
@@ -106,13 +107,45 @@ async function start(){
                 case "Employee":
                     objprompts = await inqurier.prompt(menu.updateemployee);
                     console.log(objprompts);
+                    switch (objprompts.field) {
+                        case "First name":
+                            objpromptfield = await inqurier.prompt(menu.updateemployeename);
+                            console.log(objpromptfield);
+                            objaction = await query(`update employee set firstname = (?) where empid = (?)`,[objpromptfield.name, objprompts.employee]);
+                            console.log(`First name updated to ${objpromptfield.name}`)
+                            break;
+                        case "Surname":
+                            objpromptfield = await inqurier.prompt(menu.updateemployeename);
+                            console.log(objpromptfield);
+                            objaction = await query(`update employee set surname = (?) where empid = (?)`,[objpromptfield.name, objprompts.employee]);
+                            console.log(`Surname updated to ${objpromptfield.name}`)
+                            break;
+                        case "Role":
+                            objpromptfield = await inqurier.prompt(menu.updateemployeerole);
+                            console.log(objpromptfield);
+                            objaction = await query(`update employee set FK_roleid = (?) where empid = (?)`,[objpromptfield.role, objprompts.employee]);
+                            console.log(`Employee's Role Updated`)
+                            break;
+                        case "Report to":
+                            objpromptfield = await inqurier.prompt(menu.updateemployeedreport);
+                            console.log(objpromptfield);
+                            objaction = await query(`update employee set FK_managerid = (?) where empid = (?)`,[objpromptfield.reportto, objprompts.employee]);
+                            console.log(`Employee's Role Updated`)
+                            break;                                                                            
+                        default:
+                            break;
+                    }
             
                     break;
 
                            
                 default:
                     break;
-            }
+            };
+            break;
+        case "Exist":
+
+            break;
         default:
             break;
     }
@@ -131,4 +164,5 @@ async function query(cmd, val) {
         })
     })
 }
+
 

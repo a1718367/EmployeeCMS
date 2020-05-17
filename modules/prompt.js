@@ -29,8 +29,6 @@ async function employeeList() {
 }
 
 
-//employeeList();
-
 
 const chkstring = async function(input){
     if (input == ""){
@@ -121,7 +119,7 @@ const addstaff = [
         }
     },
     {
-        message: 'Please Select A Direct Report for New staff.',
+        message: 'Please Select A Line Manager for New staff.',
         type: 'list',
         name: 'reportto',
         choices: async function(ans){
@@ -150,7 +148,7 @@ const updatedep = [
 
 const updateroles = [
     {
-        message: 'Please select a Role to Update.',
+        message: 'Please select a Role to Update',
         type: 'list',
         name: 'role',
         choices: async function(ans){
@@ -201,7 +199,45 @@ const updateemployee = [
             return employeeList();
         }
     },
+    {
+        message: 'Please Select a Employee field to Update.',
+        type: 'list',
+        name: 'field',
+        choices: ['First name', 'Surname', 'Role', 'Report to'],
+    }
+];
+
+const updateemployeename =[
+    {
+        message: 'Please Enter New Name.',
+        type: 'input',
+        name: 'name',
+        validate: chkstring,
+    }
+];
+
+const updateemployeerole = [
+    {
+        message: 'Please select a New Role.',
+        type: 'list',
+        name: 'role',
+        choices: async function(ans){
+            return roleList();
+        },
+    },
 ]
+
+const updateemployeedreport =[
+    {
+        message: 'Please Select A Line Manager.',
+        type: 'list',
+        name: 'reportto',
+        choices: async function(ans){
+            return employeeListRpt();
+        }
+    },
+]
+
 const viewmenu= [
     {
         message: 'Please select an Option to View.',
@@ -251,6 +287,9 @@ module.exports = {
     updaterolesalary: updaterolesalary,
     updatedirectreport: updatedirectreport,
     updateemployee: updateemployee,
+    updateemployeename: updateemployeename,
+    updateemployeerole: updateemployeerole,
+    updateemployeedreport: updateemployeedreport,
     viewmenu: viewmenu,
     addmenu: addmenu,
     updatemenu: updatemenu,

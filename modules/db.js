@@ -39,5 +39,6 @@ db.listData = async function (query) {
 	});
 };
 
+db.end = function(){connection.end()};
 
 

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS employee(
     surname VARCHAR (100),
     FK_roleid int,
     FK_managerid INT,
-
+	state boolean default true,
     PRIMARY KEY (empid)
 );
 
@@ -15,6 +15,8 @@ create table if not exists roles(
 roleid int not null auto_increment,
 title varchar(30) not null,
 salary decimal not null,
+directreport boolean default false,
+state boolean default true,
 FK_depid int,
 
 primary key (roleid)
@@ -23,7 +25,7 @@ primary key (roleid)
 create table if not exists department(
 depid int not null auto_increment,
 name varchar(30),
-
+state boolean default true,
 primary key(depid)
 );
 

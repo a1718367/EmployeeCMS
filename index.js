@@ -30,20 +30,20 @@ async function start(){
         case "View":
             switch (obj) {
                 case "Department":
-                    queryobj = await query('select name from department');
+                    queryobj = await query('select name from department where state = 1');
                     console.log(queryobj)
                     break;
                 case "Roles":
-                    queryobj = await query('select roles.roleid, roles.title, roles.salary, department.name from roles join department on roles.FK_depid = department.depid');
+                    queryobj = await query('select roles.roleid, roles.title, roles.salary, department.name from roles join department on roles.FK_depid = department.depid where roles.state = 1');
                     console.log(queryobj);
                     break;                    
                 case "Employee":
-                    queryobj = await query('select employee.empid, employee.firstname, employee.surname, roles.title, department.name from employee join roles on employee.FK_roleid = roles.roleid join department on roles.FK_depid = department.depid');
+                    queryobj = await query('select employee.empid, employee.firstname, employee.surname, roles.title, department.name from employee join roles on employee.FK_roleid = roles.roleid join department on roles.FK_depid = department.depid where employee.state = 1');
                     console.log(queryobj);
                     break;            
                 default:
                     break;
-            }
+            };
             break;
         case "Add":
             switch (obj) {
@@ -55,17 +55,22 @@ async function start(){
                 case "Roles":
                     objprompts = await inqurier.prompt(menu.addrole);
                     console.log(objprompts)
-                    objaction = await query('insert into roles (title, salary, FK_depid) values (?,?,?)',[objprompts.newrole, objprompts.newsalary, objprompts.empRole]);
+                    objaction = await query('insert into roles (title, salary, directreport, FK_depid) values (?,?,?,?)',[objprompts.newrole, objprompts.newsalary, objprompts.directreport,objprompts.empRole]);
                     console.log (`New Role ${objprompts.newrole} Added`)
                     break;
                 case "Employee":
                     objprompts = await inqurier.prompt(menu.addstaff);
                     console.log(objprompts);
+                    objaction = await query('insert into employee (firstname, surname, FK_roleid, FK_managerid) values (?,?,?,?)',[objprompts.firstname, objprompts.surname, objprompts.role,objprompts.reportto]);
+                    console.log (`New Employee ${objprompts.firstname} ${objprompts.surname} Added`)
                     break;                                
                 default:
                     break;
             }
     
+        case "Exit":
+            connection.end();
+            process.exit();
         default:
             break;
     }

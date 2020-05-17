@@ -10,3 +10,8 @@ from employee
 inner join roles on employee.FK_roleid = roles.roleid
 inner join department on roles.FK_depid = department.depid
 left join employee as manager on employee.FK_managerid = manager.empid;
+
+select roles.roleid, roles.title, roles.salary, department.name 
+from roles 
+join department on roles.FK_depid = department.depid 
+where roles.state = 1;

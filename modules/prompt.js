@@ -6,17 +6,18 @@ const db = require("./db");
 
 // Database queries
 async function deptList() {
-	let query = "SELECT * FROM department";
+	let query = "SELECT * FROM department where state = 1";
 	let choices = await db.listData(query);
 	return choices;
 }
 async function roleList() {
-	let query = "SELECT roleid, title FROM roles";
+	let query = "SELECT roleid, title FROM roles where state = 1";
 	let choices = await db.listData(query);
 	return choices;
 }
 async function employeeList() {
-	let query = "SELECT empid, CONCAT(firstname, ' ', surname) FROM employee";
+    let query = `select employee.empid, concat(employee.firstname, " ", employee.surname) from employee join roles on employee.FK_roleid = roles.roleid where roles.directreport = 1`;
+	// let query = "SELECT empid, CONCAT(firstname, ' ', surname) FROM employee";
 	let choices = await db.listData(query);
 	return choices;
 }
@@ -79,9 +80,14 @@ const addrole = [
         validate: chknum,
     },
     {
+        message: 'Does the New Role has Direct report?.',
+        type: 'confirm',
+        name: 'directreport',
+    },
+    {
         type: "list",
         name: "empRole",
-        message: "Which role is this employee in?",
+        message: "Please Select a Department for thie role.",
         choices: async function (answers) {
             return deptList();
         }
@@ -108,6 +114,14 @@ const addstaff = [
         name: 'role',
         choices: async function(ans){
             return roleList();
+        }
+    },
+    {
+        message: 'Please Select A Direct Report for New staff.',
+        type: 'list',
+        name: 'reportto',
+        choices: async function(ans){
+            return employeeList();
         }
     },
 

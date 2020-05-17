@@ -20,15 +20,16 @@ connection.connect(function(err){
 
 async function start(){
     let a = await inqurier.prompt(menu.mainmenu);
-    let obj = a.itemchoise;
     let ops = a.opchoise;
+    let obj = a.itemchoise;
     let queryobj;
     let objaction
     let objprompts;
     let objpromptfield;
-    let currentstate;
-
+    
+    
     switch (ops) {
+
         case "View":
             switch (obj) {
                 case "Department":
@@ -134,18 +135,42 @@ async function start(){
                             break;                                                                            
                         default:
                             break;
-                    }
+                    };
             
                     break;
 
-                           
                 default:
                     break;
             };
             break;
-        case "Exist":
-
+        case "Delete":
+            switch (obj) {
+                case "Department":
+                    objprompts = await inqurier.prompt(menu.deletedep);
+                    console.log(objprompts);
+                    objaction = await query(`update department set state = 0 where depid = (?)`,[objprompts.dep]);
+                    console.log(`Department Deactivated`);
+                    break;
+                case "Roles":
+                    objprompts = await inqurier.prompt(menu.deleterole);
+                    console.log(objprompts);
+                    objaction = await query(`update roles set state = 0 where roleid = (?)`,[objprompts.role]);
+                    console.log(`Role Deactivated`);
+                    break;
+                case "Employee":
+                    objprompts = await inqurier.prompt(menu.deleteemp);
+                    console.log(objprompts);
+                    objaction = await query(`update employee set state = 0 where empid = (?)`,[objprompts.employee]);
+                    console.log(`Employee Deactivated`);
+                    break;                                
+                default:
+                    break;
+            };
             break;
+        case "Exit":
+        connection.end();
+        process.exit();
+        
         default:
             break;
     }

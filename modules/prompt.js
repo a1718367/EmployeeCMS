@@ -16,7 +16,7 @@ async function roleList() {
 	return choices;
 }
 async function employeeListRpt() {
-    let query = `select employee.empid, concat(employee.firstname, " ", employee.surname) from employee join roles on employee.FK_roleid = roles.roleid where roles.directreport = 1`;
+    let query = `select employee.empid, concat(employee.firstname, " ", employee.surname) from employee join roles on employee.FK_roleid = roles.roleid where roles.directreport = 1 and employee.state = 1`;
 	// let query = "SELECT empid, CONCAT(firstname, ' ', surname) FROM employee";
 	let choices = await db.listData(query);
 	return choices;
@@ -43,7 +43,7 @@ const chknum = async function(input){
 
 const mainmenu = [
     {
-        message: 'Please Select an Option.',
+        message: 'Please Select an Action.',
         type: 'list',
         name: 'opchoise',
         choices: ['View', 'Add', 'Update', 'Delete','Exit']
@@ -56,6 +56,7 @@ const mainmenu = [
         
     }
 ];
+
 
 const adddept = [
     {
@@ -238,6 +239,37 @@ const updateemployeedreport =[
     },
 ]
 
+const deletedep = [
+    {
+        message: "Please select a Department to De-Activate.",
+        type: 'list',
+        name: 'dep',
+        choices: async function(ans){
+            return deptList();
+        }
+    },
+]
+const deleterole = [
+    {
+        message: 'Please select a Role to De-Activate',
+        type: 'list',
+        name: 'role',
+        choices: async function(ans){
+            return roleList();
+        },
+    },
+];
+
+const deleteemp = [
+    {
+        message: 'Please Select an Employee to De-Activate.',
+        type: 'list',
+        name: 'employee',
+        choices: async function(ans){
+            return employeeList();
+        }
+    },
+]
 const viewmenu= [
     {
         message: 'Please select an Option to View.',
@@ -290,6 +322,9 @@ module.exports = {
     updateemployeename: updateemployeename,
     updateemployeerole: updateemployeerole,
     updateemployeedreport: updateemployeedreport,
+    deletedep: deletedep,
+    deleterole: deleterole,
+    deleteemp: deleteemp,
     viewmenu: viewmenu,
     addmenu: addmenu,
     updatemenu: updatemenu,

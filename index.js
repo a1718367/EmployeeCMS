@@ -40,7 +40,7 @@ ___________________________________`)
         concat(e.firstname," ",e.surname) as staff
         from
         employee e
-        inner join employee m on m.empid = e.FK_managerid;`);
+        inner join employee m on m.empid = e.FK_managerid order by manager`);
         console.table(queryobj);
         start()
     }else if(ops == 'Total Overhead'){

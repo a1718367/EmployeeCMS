@@ -26,6 +26,8 @@ PSO Co.
 none
 ## Link
 https://github.com/a1718367/EmployeeCMS.git
+## Demonstration
+https://drive.google.com/file/d/1h7QlvRwARFrpeFtjr6V87pE_WJVcoXry/view?usp=sharing
 
 ## Contacts
 ### Author: PangSzee Ong
